@@ -1,0 +1,12 @@
+Changes
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+dist.ini
+lib/Sub/Exporter/GlobExporter.pm
+t/export.t
+t/lib/TestGlob.pm
+t/release-pod-syntax.t
