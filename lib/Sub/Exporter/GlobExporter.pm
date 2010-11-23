@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Sub::Exporter::GlobExporter;
 BEGIN {
-  $Sub::Exporter::GlobExporter::VERSION = '0.001';
+  $Sub::Exporter::GlobExporter::VERSION = '0.002';
 }
 # ABSTRACT: export shared globs with Sub::Exporter collectors
 
@@ -30,8 +30,15 @@ sub glob_exporter {
 
   return sub {
     my ($value, $data) = @_;
-    my $globref = $data->{class}->$globref_method;
 
+    my @args = defined $value
+      ? ({ map {; $_ => $value->{$_} } grep { ! /^-/ } keys %$value })
+      : ();
+
+    my $globref = $data->{class}->$globref_method(@args);
+
+    # allow a SCALAR ref in the future to do ($$as = $globref) as we allow subs
+    # to be exported into scalar refs -- rjbs, 2010-11-23
     my $name;
     $name = defined $value->{'-as'} ? $value->{'-as'} : $default_name;
 
@@ -58,7 +65,7 @@ Sub::Exporter::GlobExporter - export shared globs with Sub::Exporter collectors
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -110,8 +117,18 @@ a string which will be called on the exporter
 
 For an example, see the L</SYNOPSIS>, in which a method is defined to produce
 the globref to share.  This allows the glob-exporting package to be subclassed,
-for for the subclass to choose to re-use the same glob when exporting  or to
+for for the subclass to choose to re-use the same glob when exporting or to
 export a new one.
+
+If there are entries in the arguments to the globref-exporting collector
+I<other> than those beginning with a dash, a hashref of them will be passed to
+the globref locator.  In other words, if we were to write this:
+
+  use Shared::Symbol '$Symbol' => { arg => 1, -as => 2 };
+
+It would result in a call like the following:
+
+  my $globref = Shared::Symbol->_shared_globref({ arg => 1 });
 
 =head1 AUTHOR
 
