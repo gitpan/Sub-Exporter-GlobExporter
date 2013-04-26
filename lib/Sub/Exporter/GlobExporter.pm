@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 package Sub::Exporter::GlobExporter;
-BEGIN {
-  $Sub::Exporter::GlobExporter::VERSION = '0.002';
+{
+  $Sub::Exporter::GlobExporter::VERSION = '0.003';
 }
 # ABSTRACT: export shared globs with Sub::Exporter collectors
 
@@ -57,6 +57,7 @@ sub glob_exporter {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -65,7 +66,7 @@ Sub::Exporter::GlobExporter - export shared globs with Sub::Exporter collectors
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -84,7 +85,7 @@ First, you write something that exports globs:
   sub _shared_globref { return \*Common }
 
 Now other code can import C<$Symbol> and get their C<*Symbol> made an alias to
-C<*Shared::Symbol::Symbol>.
+C<*Shared::Symbol::Common>.
 
 If you don't know what this means or why you'd want to do it, you may want to
 stop reading now.
@@ -93,13 +94,13 @@ The other class can do something like this:
 
   use Shared::Symbol '$Symbol';
 
-  print $Symbol; # prints the scalar entry of *Shared::Symbol::Symbol
+  print $Symbol; # prints the scalar entry of *Shared::Symbol::Common
 
 ...or...
 
   use Shared::Symbol '$Symbol' => { -as => 'SharedSymbol' };
 
-  print $SharedSymbol; # prints the scalar entry of *Shared::Symbol::Symbol
+  print $SharedSymbol; # prints the scalar entry of *Shared::Symbol::Common
 
 =head1 OVERVIEW
 
@@ -142,4 +143,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

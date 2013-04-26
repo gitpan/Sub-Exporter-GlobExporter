@@ -4,33 +4,51 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'export shared globs with Sub::Exporter collectors',
-  'AUTHOR' => 'Ricardo Signes <rjbs@cpan.org>',
-  'BUILD_REQUIRES' => {
-    'Test::More' => '0.96'
+  "ABSTRACT" => "export shared globs with Sub::Exporter collectors",
+  "AUTHOR" => "Ricardo Signes <rjbs\@cpan.org>",
+  "BUILD_REQUIRES" => {},
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  "DISTNAME" => "Sub-Exporter-GlobExporter",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Sub::Exporter::GlobExporter",
+  "PREREQ_PM" => {
+    "Scalar::Util" => 0,
+    "Sub::Exporter" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'DISTNAME' => 'Sub-Exporter-GlobExporter',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Sub::Exporter::GlobExporter',
-  'PREREQ_PM' => {
-    'Scalar::Util' => '0',
-    'Sub::Exporter' => '0'
+  "TEST_REQUIRES" => {
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Test::More" => "0.96"
   },
-  'VERSION' => '0.002',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.003",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+  my $tr = delete $WriteMakefileArgs{TEST_REQUIRES};
+  my $br = $WriteMakefileArgs{BUILD_REQUIRES};
+  for my $mod ( keys %$tr ) {
+    if ( exists $br->{$mod} ) {
+      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
+    }
+    else {
+      $br->{$mod} = $tr->{$mod};
+    }
+  }
+}
 
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
   my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
