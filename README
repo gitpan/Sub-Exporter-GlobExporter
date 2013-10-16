@@ -1,7 +1,7 @@
 
 
 This archive contains the distribution Sub-Exporter-GlobExporter,
-version 0.003:
+version 0.004:
 
   export shared globs with Sub::Exporter collectors
 

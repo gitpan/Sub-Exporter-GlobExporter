@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Sub::Exporter::GlobExporter;
 {
-  $Sub::Exporter::GlobExporter::VERSION = '0.003';
+  $Sub::Exporter::GlobExporter::VERSION = '0.004';
 }
 # ABSTRACT: export shared globs with Sub::Exporter collectors
 
@@ -66,7 +66,7 @@ Sub::Exporter::GlobExporter - export shared globs with Sub::Exporter collectors
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -118,7 +118,7 @@ a string which will be called on the exporter
 
 For an example, see the L</SYNOPSIS>, in which a method is defined to produce
 the globref to share.  This allows the glob-exporting package to be subclassed,
-for for the subclass to choose to re-use the same glob when exporting or to
+so the subclass may choose to either re-use the same glob when exporting or to
 export a new one.
 
 If there are entries in the arguments to the globref-exporting collector
